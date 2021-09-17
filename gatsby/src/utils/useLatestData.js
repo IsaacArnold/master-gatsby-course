@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+const gql = String.raw;
+
 export default function useLatestData() {
   // hot slices
   const [hotSlices, setHotSlices] = useState();
@@ -14,19 +16,19 @@ export default function useLatestData() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: `
-              query {
-  StoreSettings(id: "downtown") {
-  name
-    slicemaster {
-      name
-    }
-    hotSlices {
-      name
-    }
-}
-      }
-              `,
+        query: gql`
+          query {
+            StoreSettings(id: "downtown") {
+              name
+              slicemaster {
+                name
+              }
+              hotSlices {
+                name
+              }
+            }
+          }
+        `,
       }),
     }).then((res) =>
       res.json().then((res) => {
