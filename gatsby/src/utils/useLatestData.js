@@ -1,15 +1,29 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 const gql = String.raw;
+
+const deets = gql`
+    name
+    _id
+    image {
+      asset {
+        url
+        metadata {
+          lqip
+        }
+      }
+    }
+`;
 
 export default function useLatestData() {
   // hot slices
   const [hotSlices, setHotSlices] = useState();
-  // Slicemasters
+  // slicemasters
   const [slicemasters, setSlicemasters] = useState();
-  // Use a side effect to fetch data from the graphql endpoint
+  // Use a side effect to fetcht he data from the graphql endpoint
   useEffect(function () {
-    // When the component loads, fetch the data
+    console.log("FETCHING DATA");
+    // when the component loads, fetch the data
     fetch(process.env.GATSBY_GRAPHQL_ENDPOINT, {
       method: "POST",
       headers: {
@@ -21,23 +35,27 @@ export default function useLatestData() {
             StoreSettings(id: "downtown") {
               name
               slicemaster {
-                name
+                ${deets}
               }
               hotSlices {
-                name
+                ${deets}
               }
             }
           }
         `,
       }),
-    }).then((res) =>
-      res.json().then((res) => {
-        // TODO: check for errors
-        // Set data to state
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        // TODO: checl for errors
+        // set the data to state
         setHotSlices(res.data.StoreSettings.hotSlices);
         setSlicemasters(res.data.StoreSettings.slicemaster);
       })
-    );
+      .catch((err) => {
+        console.log("SHOOOOOT");
+        console.log(err);
+      });
   }, []);
   return {
     hotSlices,
