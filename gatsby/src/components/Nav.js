@@ -56,7 +56,7 @@ const NavStyles = styled.nav`
     padding-bottom: 2rem;
     ul {
       grid-template-rows: auto auto;
-      grid-template-columns: repeat(var(---columns), 1fr);
+      grid-template-columns: repeat(var(--columns), 1fr);
       justify-items: center;
     }
     .logo-item {
