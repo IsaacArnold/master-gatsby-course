@@ -39,13 +39,6 @@ export default function BeersPage({ data }) {
               <img src={beer.image} alt={beer.name} />
               <h3>{beer.name}</h3>
               {beer.price}
-              <p title={`${rating} out of 5 stars`}>
-                {`⭐`.repeat(rating)}
-                <span style={{ filter: `grayscale(100%)` }}>
-                  {`⭐`.repeat(5 - rating)}
-                </span>
-                <span>({beer.rating.reviews})</span>
-              </p>
             </SingleBeerStyles>
           );
         })}
@@ -62,10 +55,6 @@ export const query = graphql`
         name
         price
         image
-        rating {
-          average
-          reviews
-        }
       }
     }
   }
